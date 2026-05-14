@@ -1,4 +1,4 @@
-name: GKI Kernel Build
+name: GKI Kernel Build)
 permissions:
   contents: write  # Allow writing to repository contents (for pushing tags)
   actions: write   # Allows triggering actions
@@ -34,7 +34,7 @@ on:
       use_O2:
         required: true
         type: boolean
-        default: true
+        default: false
       version:
         required: false
         type: string
@@ -825,3 +825,4 @@ jobs:
           path: |
             *AnyKernel3.zip
             *.img
+

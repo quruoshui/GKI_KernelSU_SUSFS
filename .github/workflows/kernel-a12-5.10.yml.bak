@@ -1,4 +1,4 @@
-name: Android 13 5.15
+name: Android 12 5.10
 permissions:
   contents: write  # Allow writing to repository contents (for pushing tags)
   actions: write   # Allows triggering actions
@@ -18,6 +18,10 @@ on:
         required: true
         type: string
         default: Stable
+      # kernelsu_branch_other:
+      #   required: false
+      #   type: string
+      #   default: ""
       version:
         required: false
         type: string
@@ -36,53 +40,68 @@ on:
         description: '是否开启O2编译优化?'
         required: true
         type: boolean
-        default: true
+        default: false
       BBG:
         description: "是否启用内核层面阻止对关键分区/设备节点的非法写入(LSM)？"
         required: true
         type: boolean
         default: true
 jobs:
-  build-kernel-a13-5-15-kernelsu-susfs:
+  build-kernel-a12-5-10-kernelsu-susfs:
     strategy:
       fail-fast: false
       matrix:
         include:
-          # 从谷歌提交找到补丁，修复94与104的兼容性问题
-          # - sub_level: "74"
-          #   os_patch_level: "2023-01"
-          # - sub_level: "94"
-          #   os_patch_level: "2023-05"
-          # - sub_level: "104"
-          #   os_patch_level: "2023-07"
-          # - sub_level: "123"
-          #   os_patch_level: "2023-11"
-          #- sub_level: "137"
-          #  os_patch_level: "2024-01"
-          #- sub_level: "144"
-          #  os_patch_level: "2024-03"
-          # - sub_level: "148"
-          #   os_patch_level: "2024-05"
-          # - sub_level: "167"
-          #   os_patch_level: "2024-11"
-          - sub_level: "170"
-            os_patch_level: "2025-01"
-          - sub_level: "178"
-            os_patch_level: "2025-03"
-          - sub_level: "180"
-            os_patch_level: "2025-05"  
-          - sub_level: "X"
-            os_patch_level: "lts"
+        #- sub_level: "66"
+        #  os_patch_level: "2022-01"
+        #  revision: "r11"
+        #- sub_level: "81"
+        #  os_patch_level: "2022-03"
+        #  revision: "r11"
+        #- sub_level: "101"
+        #  os_patch_level: "2022-04"
+        #  revision: "r28"
+        # - sub_level: "136"
+        #   os_patch_level: "2022-11"
+        #   revision: "r15"
+        #- sub_level: "168"
+        #  os_patch_level: "2023-04"
+        #  revision: "r9"
+        # - sub_level: "198"
+        #   os_patch_level: "2024-01"
+        #   revision: "r17"
+        #- sub_level: "205"
+        #  os_patch_level: "2024-03"
+        #  revision: "r9"
+        # - sub_level: "209"
+        #   os_patch_level: "2024-05"
+        #   revision: "r13"
+        #- sub_level: "218"
+        #  os_patch_level: "2024-08"
+        #  revision: "r14"
+        - sub_level: "226"
+          os_patch_level: "2024-11"
+          # revision: "r8"
+        - sub_level: "233"
+          os_patch_level: "2025-02"
+          # revision: "r1"
+        - sub_level: "236"
+          os_patch_level: "2025-05"
+          # revision: "r1"
+        - sub_level: "X"
+          os_patch_level: "lts"
     uses: ./.github/workflows/gki-kernel.yml
     secrets: inherit
     with:
       make_release: ${{ inputs.make_release || false }}
-      android_version: "android13"
-      kernel_version: "5.15"
+      android_version: "android12"
+      kernel_version: "5.10"
       sub_level: ${{ matrix.sub_level }}
       os_patch_level: ${{ matrix.os_patch_level }}
+      # revision: ${{ matrix.revision }}
       kernelsu_variant: ${{ inputs.kernelsu_variant || 'Next' }}
       kernelsu_branch: ${{ inputs.kernelsu_branch || 'Dev' }}
+      # kernelsu_branch_other: ${{ inputs.kernelsu_branch_other || '' }}
       version: ${{ inputs.version || '' }}
       use_zram: ${{ inputs.use_zram }}
       use_kpm: ${{ inputs.use_kpm }}

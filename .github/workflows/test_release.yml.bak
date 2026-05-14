@@ -57,7 +57,7 @@ on:
         description: '是否开启KPM功能?'
         required: true
         type: boolean
-        default: true
+        default: false
       use_O2:
         description: '是否开启O2编译优化?'
         required: true
@@ -72,7 +72,7 @@ on:
         description: '是否同时获取最新KSU管理器?'
         required: true
         type: boolean
-        default: true
+        default: false
 jobs:
   get_manager:
     uses: ./.github/workflows/get-manager.yml
